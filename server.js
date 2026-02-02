@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const logger = require('morgan');
+const cors = require('cors')
 
 // Import controller file
 const petRouter = require('./controllers/pets.controller')
@@ -24,7 +25,7 @@ mongoose.connection.on('error', (error) => {
 // Tell express we want to use Json
 app.use(express.json());
 app.use(logger('dev'));
-
+app.use(cors({ origin: 'http://localhost:5173' }));
 // app.get('/', (req, res) => {
 //   res.json({
 //     message: 'Please leave a message!'
