@@ -3,16 +3,8 @@ const express = require('express');
 const router = express.Router();
 
 //routes
-/*
-HTTP Method	Controller	Response	URI	Use Case
-POST	create	200	/pets	Create a pet
-GET	index	200	/pets	List pets
-GET	show	200	/pets/:petId	Get a single pet
-PUT	update	200	/pets/:petId	Update a pet
-DELETE	deletePet	204	/pets/:petId	Delete a pet
-*/
 
-// CREAT - POST - /pets
+// CREATE - POST - /pets
 
 router.post('/', async (req, res) => {
     try {
@@ -76,9 +68,9 @@ router.put('/:petId', async (req, res) => {
         const petId = req.params.petId
 
         // new: true makes sure the pet returned from the updated query
-        const updatedPet = await Pet.findById(petId, req.body, {new:true,}); //Adding { new: true } as the third argument will give us the updated resource, instead of the original
+        const updatedPet = await Pet.findByIdAndUpdate(petId, req.body, {new:true,}); //Adding { new: true } as the third argument will give us the updated resource, instead of the original
         if(!updatedPet) return res.status(404).json({ message: 'Pet Id not found, try again!' });
-        return res.status(200).json({ message:'Pet updated successfully', pet: updatedPet });
+        return res.status(200).json(updatedPet);
     } catch(error) {
         res.status(500).json({err:error.message});
     }
